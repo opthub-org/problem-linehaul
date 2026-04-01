@@ -3,7 +3,7 @@
 problem: test build push
 
 
-NAME = example-problem # modify here
+NAME = linehaul-problem # modify here
 
 test:
 	echo Testing $(NAME)...
