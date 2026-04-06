@@ -7,11 +7,11 @@ class NodeCollection(BaseCollection[NodeData]):
 
     def __init__(self):
         super().__init__()
-        self.data_dict:dict[str,NodeData] = dict()
+        self.data_dict:dict[int,NodeData] = dict()
 
     def from_json(self,js:list[dict]):
         super().from_json(js)
-        self.data_dict = {d.name: d for d in self.data_list}
+        self.data_dict = {d.id: d for d in self.data_list}
 
-    def get_by_name(self, name: str) -> NodeData:
-        return self.data_dict[name]
+    def get_by_name(self, id_: int) -> NodeData:
+        return self.data_dict[id_]

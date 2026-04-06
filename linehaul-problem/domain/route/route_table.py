@@ -3,13 +3,19 @@ from pathlib import Path
 
 from domain.node.node_data import NodeData
 from .route_entity import RouteEntity
+from ..order.order_vo import OrderVO
+
 
 class RouteTable:
 
     def __init__(self, node_list: list[NodeData]):
         self.table: dict[tuple[NodeData, NodeData], NodeData] = dict()
         self.node_list: list[NodeData] = node_list
-        self.node_dict:dict[str,NodeData] = {n.name:n for n in  node_list}
+        self.node_dict: dict[int, NodeData] = {n.id: n for n in node_list}
+
+    @property
+    def route_node_pairs(self):
+        return self.table.keys()
 
     def read_json(self, file_path: Path):
         self.table = dict()
@@ -17,20 +23,23 @@ class RouteTable:
             data = json.load(f)
         self.set_list(data)
 
-    def set_list(self,data:list):
+    def set_list(self, data: list):
         for d in data:
-            from_ = self.node_dict.get(d["from"],None)
+            from_ = self.node_dict.get(d["from"], None)
             nexts = d["next"]
             for to_, _next in zip(self.node_list, nexts):
                 if from_ == to_:
                     continue
-                __next = self.node_dict.get(_next,None)
+                __next = self.node_dict.get(_next, None)
                 if __next is None:
                     raise ValueError(f"{_next}はノードリストに登録されていません")
                 self.table[(from_, to_)] = __next
 
     def get_next(self, from_: NodeData, to_: NodeData) -> NodeData:
         return self.table[(from_, to_)]
+
+    def get_route_by_order(self, order: OrderVO) -> RouteEntity:
+        return self.get_route(order.from_node, order.to_node)
 
     def get_route(self, from_: NodeData, to_: NodeData) -> RouteEntity:
         if from_ == to_:

@@ -11,9 +11,6 @@ class BaseCollection[T:BaseData]:
     def __init__(self):
         self.data_list: list[T] = []
 
-    def __iter__(self)->Iterator[T]:
-        return iter(self.data_list)
-
     @property
     def n_data(self)->int:
         return len(self.data_list)

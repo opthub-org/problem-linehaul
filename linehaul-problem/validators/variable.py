@@ -17,17 +17,17 @@ def get_table_routing_schema(n_node: int):
       "type": "object",
       "properties": {{
         "from": {{
-          "type": "string",
-          "description": "出発地点のノード名"
+          "type": "integer",
+          "description": "出発地点のprefecture code"
         }},
         "next": {{
           "type": "array",
           "items": {{
-            "type": "string"
+            "type": "integer"
           }},
           "minItems": {n_node},
           "maxItems": {n_node},
-          "description": "遷移先のノードリスト（要素数は{n_node}固定）"
+          "description": "遷移先のノードリスト,自己ループは-1（要素数は{n_node}固定）"
         }}
       }},
       "required": ["from", "next"],
