@@ -27,3 +27,15 @@ class PathSetting:
     @property
     def routing_table(self)->Path:
         return self.case / "routing_table.json"
+
+    @property
+    def prefectures(self) -> Path:
+        return self.case / "prefectures.csv"
+
+    @property
+    def truck_distance_time_long(self) -> Path:
+        return self.case / "truck_distance_time_long.csv"
+
+    @property
+    def virtual_prefecture_flows(self) ->Path:
+        return self.case / "virtual_prefecture_flows.csv"

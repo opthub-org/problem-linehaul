@@ -17,15 +17,18 @@ class BranchCollection(BaseCollection[BranchData]):
         self.entity_list:list[BranchVO] = []
         self.entity_dict :dict[FrozenSet[NodeData],BranchVO] = dict()
 
-    def from_json(self,js:list[dict]):
-        super().from_json(js)
-        self.entity_list =[]
-        for d in self.data_list:
-            f_node = self.nodes.get_by_name(d.from_node)
-            t_node = self.nodes.get_by_name(d.to_node)
+
+    def convert_to(self,dto_list:list[BranchData]):
+
+        self.entity_list = []
+        for d in dto_list:
+            f_node = self.nodes.get_by_id(d.from_node)
+            t_node = self.nodes.get_by_id(d.to_node)
+            if f_node == t_node:
+                continue
             self.entity_list.append(BranchVO(d, f_node, t_node))
 
-        self.entity_dict = {frozenset((e.from_node,e.to_node)):e
+        self.entity_dict = {frozenset((e.from_node, e.to_node)): e
                             for e in self.entity_list}
 
     def get_branch_by_ft(self,from_:NodeData,to_:NodeData)->BranchVO:

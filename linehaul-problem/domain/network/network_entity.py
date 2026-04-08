@@ -2,7 +2,7 @@ import json
 from os import PathLike
 from domain.branch.branch_collection import BranchCollection
 from domain.node.node_collection import NodeCollection
-
+from .i_network_reader import INetworkReader
 
 class NetWork:
 
@@ -18,9 +18,8 @@ class NetWork:
     def n_branch(self) -> int:
         return self.branch.n_data
 
-    def read(self, file_path: PathLike):
-        with open(file_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+    def read(self, reader:INetworkReader):
+        reader.read()
 
-        self.node.from_json(data["nodes"])
-        self.branch.from_json(data["branches"])
+        self.node.convert_to(reader.node)
+        self.branch.convert_to(reader.branch)

@@ -9,9 +9,9 @@ class NodeCollection(BaseCollection[NodeData]):
         super().__init__()
         self.data_dict:dict[int,NodeData] = dict()
 
-    def from_json(self,js:list[dict]):
-        super().from_json(js)
+    def convert_to(self,dto_list:list[NodeData]):
+        self.data_list = dto_list
         self.data_dict = {d.id: d for d in self.data_list}
 
-    def get_by_name(self, id_: int) -> NodeData:
+    def get_by_id(self, id_: int) -> NodeData:
         return self.data_dict[id_]

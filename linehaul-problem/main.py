@@ -9,6 +9,7 @@ import click
 
 from evaluator.main import evaluate
 from infra.path_setting import PathSetting
+from app.problem_factory import ProblemFactory
 from validators.example_env import validate_example_env
 from validators.variable import validate_variable
 
@@ -41,13 +42,15 @@ def main(case_name: str,case_type) -> None:
         LOGGER.info(msg)
 
         path_setting = PathSetting(str(root), validated_example_env["case_name"].strip())
-        variable = get_variable(validated_example_env["case_type"].strip(), path_setting.routing_table)
 
-        validated_variable = validate_variable(variable)  # Validate the variable
+        problem = ProblemFactory.create(validated_example_env["case_type"].strip(),
+                              path_setting.routing_table)
+
+        validated_variable = validate_variable(problem)  # Validate the variable
         # msg = f"validated_variable: {validated_variable}"
         # LOGGER.info(msg)
 
-        result = evaluate(validated_variable,path_setting)  # Evaluate the variable
+        result = evaluate(problem,path_setting)  # Evaluate the variable
         msg = f"result: {result}"
         LOGGER.info(msg)
 
@@ -61,19 +64,6 @@ def main(case_name: str,case_type) -> None:
         msg = f"error result: {error_result}"
         LOGGER.info(msg)
         raise
-
-def get_variable(case_type:str,file_path:Path)->str:
-    match case_type:
-        case "test":
-            if not file_path.exists():
-                raise FileNotFoundError(f"{file_path}is not exist")
-            variable = file_path.read_text()
-        case "problem":
-            variable = input()
-        case _:
-            raise ValueError(f"case_type:{case_type} is undifined")
-    return variable
-
 
 
 if __name__ == "__main__":

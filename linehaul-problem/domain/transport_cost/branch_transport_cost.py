@@ -5,10 +5,11 @@ from domain.order.order_vo import OrderVO
 
 
 class BranchTransportCost:
-    vehicle_capacity = 10
+    epsilon = 10 ** -3
 
-    def __init__(self, branch: BranchVO):
+    def __init__(self, branch: BranchVO, vehicle_capacity: float):
         self.branch: BranchVO = branch
+        self.vehicle_capacity: float = vehicle_capacity
         self.order_list: list[OrderVO] = []
 
     @property
@@ -24,16 +25,30 @@ class BranchTransportCost:
         return self.total_load_average / self.vehicle_capacity
 
     def get_cost(self):
-        norm_dist = NormalDist(mu=self.total_load_average,
-                               sigma=self.total_standard_deviation)
-        vehicle_max = int(2 * self.average_required_vehicle)
-        cdf_list = [norm_dist.cdf(i * self.vehicle_capacity) for i in range(vehicle_max)]
+        if not self.order_list:
+            return 0
+        cdf_list = self.make_cdf_list()
 
         total_cost = 0
-        for n_vehicle in range(1, vehicle_max):
+        for n_vehicle in range(len(cdf_list)):
             upper = cdf_list[n_vehicle]
-            lower = cdf_list[n_vehicle - 1]
+            lower = cdf_list[n_vehicle - 1] if n_vehicle > 1 else 0
             prob = upper - lower
             total_cost += prob * n_vehicle * self.branch.cost
 
         return total_cost
+
+    def make_cdf_list(self):
+
+        norm_dist = NormalDist(mu=self.total_load_average,
+                               sigma=self.total_standard_deviation)
+
+        cdf_list = [0.0]
+        stop_prob = 1 - self.epsilon
+        n_vehicle = 1
+        while cdf_list[-1] < stop_prob:
+            prob = norm_dist.cdf(n_vehicle * self.vehicle_capacity)
+            cdf_list.append(prob)
+            n_vehicle += 1
+
+        return cdf_list

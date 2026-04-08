@@ -16,7 +16,3 @@ class BranchVO:
     @property
     def cost(self) -> float:
         return self.data.cost
-
-    @property
-    def capa(self) -> float:
-        return self.data.capacity

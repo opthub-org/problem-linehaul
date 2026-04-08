@@ -4,8 +4,7 @@ import json
 
 from jsonschema import validate
 
-# Schema to validate whether the variable is a scalar(e.g., 1)
-n_node = 5
+from app.test_problem.problem import Problem
 
 
 def get_table_routing_schema(n_node: int):
@@ -36,20 +35,20 @@ def get_table_routing_schema(n_node: int):
     }}"""
 
 
-def validate_variable(variable: str):
+def validate_variable(problem: Problem) -> list[dict]:
     """Validate the variable.
 
     Args:
         variable (str): The variable.
-
+        n_node (int): The number of node
     Returns:
     float | list[float]: The validated variable.
     """
     # Validate the variable here.
     # This is an example that validates whether the variable is a scalar or a vector.
-    ROUTING_TABLE_SCHEMA = get_table_routing_schema(n_node)
+    ROUTING_TABLE_SCHEMA = get_table_routing_schema(problem.n_node)
 
-    json_variable = json.loads(variable)  # Convert the variable to JSON
+    json_variable = problem.variable  # Convert the variable to JSON
     validate(json_variable, json.loads(ROUTING_TABLE_SCHEMA))  # Validate the variable
 
     return json_variable

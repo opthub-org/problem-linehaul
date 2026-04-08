@@ -1,4 +1,8 @@
+from typing import Type
+
+from infra.io.order.order_reader import OrderReader
 from infra.path_setting import PathSetting
+from infra.io.network import NetWorkReader
 from domain.network.network_entity import NetWork
 from domain.route.route_table import RouteTable
 from domain.order.order_collection import OrderCollection
@@ -7,7 +11,8 @@ from domain.transport_cost.branch_transport_cost_collection import TransportCost
 
 class CostEvaluator:
 
-    def __init__(self):
+    def __init__(self,v_capa:float):
+        self.vehicle_capacity:float = v_capa
         self.network: NetWork = NetWork()
         self.route_table: RouteTable | None = None
         self.order_collection = OrderCollection()
@@ -22,9 +27,11 @@ class CostEvaluator:
         return self.network.node
 
     def initialize(self, path_setting: PathSetting):
-        self.network.read(path_setting.network)
+        network_reader =  NetWorkReader(path_setting.network)
+        self.network.read(network_reader)
 
-        self.order_collection.read_csv(path_setting.order)
+        order_reader = OrderReader(path_setting.order)
+        self.order_collection.read(order_reader)
         self.order_collection.convert_vo(self.nodes)
 
         self.route_table = RouteTable(self.network.node.data_list)
@@ -35,9 +42,11 @@ class CostEvaluator:
 
     def eveluate(self) -> float:
 
-        self.branch_transport_costs.initialize(self.branches)
+        self.branch_transport_costs.initialize(self.branches,v_capa=self.vehicle_capacity)
 
         for order in self.order_collection.vo_list:
+            if order.is_same_ft:
+                continue
             route = self.route_table.get_route_by_order(order)
             for f, t in route.pairwise:
                 branch = self.branches.get_branch_by_ft(f, t)
