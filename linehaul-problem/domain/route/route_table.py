@@ -1,42 +1,53 @@
-import json
-from pathlib import Path
 
+from branch.branch_collection import BranchCollection
+from domain.network.network_entity import NetWork
 from domain.node.node_data import NodeData
+from node.node_collection import NodeCollection
 from .route_entity import RouteEntity
 from ..order.order_vo import OrderVO
 
 
 class RouteTable:
 
-    def __init__(self, node_list: list[NodeData]):
-        self.table: dict[tuple[NodeData, NodeData], NodeData] = dict()
-        self.node_list: list[NodeData] = node_list
-        self.node_dict: dict[int, NodeData] = {n.id: n for n in node_list}
+    def __init__(self,
+                 network: NetWork):
+        self.network = network
+        self.next_hop_table: dict[tuple[NodeData, NodeData], NodeData] = dict()
+
+    @property
+    def nodes(self) -> NodeCollection:
+        return self.network.node
+
+    @property
+    def branches(self) -> BranchCollection:
+        return self.network.branch
 
     @property
     def route_node_pairs(self):
-        return self.table.keys()
-
-    def read_json(self, file_path: Path):
-        self.table = dict()
-        with open(file_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        self.set_list(data)
+        return self.next_hop_table.keys()
 
     def set_list(self, data: list):
         for d in data:
-            from_ = self.node_dict.get(d["from"], None)
+            from_ = self.nodes.data_dict.get(d["from"], None)
+            if from_ is None:
+                raise ValueError(f"{from_}はノードリストに登録されていません")
             nexts = d["next"]
-            for to_, _next in zip(self.node_list, nexts):
+            for to_, _next in zip(self.nodes.data_list, nexts):
                 if from_ == to_:
                     continue
-                __next = self.node_dict.get(_next, None)
+                __next = self.nodes.data_dict.get(_next, None)
                 if __next is None:
                     raise ValueError(f"{_next}はノードリストに登録されていません")
-                self.table[(from_, to_)] = __next
+                if from_ == __next:
+                    raise ValueError(f"{from_}のnext_hopに{from_}が指定されています")
+                if not self.branches.is_connected(from_, __next):
+                    raise ValueError(f"{from_}と{__next}は接続していません")
+
+                self.next_hop_table[(from_, to_)] = __next
+
 
     def get_next(self, from_: NodeData, to_: NodeData) -> NodeData:
-        return self.table[(from_, to_)]
+        return self.next_hop_table[(from_, to_)]
 
     def get_route_by_order(self, order: OrderVO) -> RouteEntity:
         return self.get_route(order.from_node, order.to_node)

@@ -8,6 +8,6 @@ class NodeData(BaseData):
     name:str = field(metadata={"key":"prefecture_name"})
 
     def __repr__(self):
-        return self.name
+        return f"{self.id:02}:{self.name}"
 
 

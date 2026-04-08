@@ -25,16 +25,16 @@ LOGGER = logging.getLogger(__name__)  # Logger
     help="case_name",
 )
 @click.option(
-"-t",
+    "-t",
     "--case_type",
     type=str,
     help="case_type",
 )
-def main(case_name: str,case_type) -> None:
+def main(case_name: str, case_type) -> None:
     """Example main function for evaluating given variable."""
     root = Path(__file__).parent.parent
-    env_var = {"case_name":case_name,
-               "case_type":case_type}
+    env_var = {"case_name": case_name,
+               "case_type": case_type}
 
     try:
         validated_example_env = validate_example_env(env_var)  # Validate the environment variable
@@ -44,22 +44,22 @@ def main(case_name: str,case_type) -> None:
         path_setting = PathSetting(str(root), validated_example_env["case_name"].strip())
 
         problem = ProblemFactory.create(validated_example_env["case_type"].strip(),
-                              path_setting.routing_table)
+                                        path_setting.routing_table)
 
         validated_variable = validate_variable(problem)  # Validate the variable
         # msg = f"validated_variable: {validated_variable}"
         # LOGGER.info(msg)
 
-        result = evaluate(problem,path_setting)  # Evaluate the variable
+        result = evaluate(problem, path_setting)  # Evaluate the variable
         msg = f"result: {result}"
         LOGGER.info(msg)
 
-        sys.stdout.write(json.dumps(result))  # Write the result to the standard output
+        sys.stdout.write(json.dumps(result) + "\n")  # Write the result to the standard output
 
     except Exception as e:
         error_result = {"objective": None, "error": str(e)}
         sys.stdout.write(
-            json.dumps(error_result),
+            json.dumps(error_result, ensure_ascii=False) + "\n",
         )  # Write the error result to the standard output
         msg = f"error result: {error_result}"
         LOGGER.info(msg)

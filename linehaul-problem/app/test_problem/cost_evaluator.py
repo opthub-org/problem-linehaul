@@ -34,7 +34,7 @@ class CostEvaluator:
         self.order_collection.read(order_reader)
         self.order_collection.convert_vo(self.nodes)
 
-        self.route_table = RouteTable(self.network.node.data_list)
+        self.route_table = RouteTable(self.network)
 
     def set_route_table(self, js: list):
         self.route_table.set_list(js)

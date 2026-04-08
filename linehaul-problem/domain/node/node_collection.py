@@ -1,5 +1,5 @@
 from .node_data import NodeData
-from ..base.base_collection import BaseCollection
+from domain.base.base_collection import BaseCollection
 
 
 class NodeCollection(BaseCollection[NodeData]):
