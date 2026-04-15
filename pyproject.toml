@@ -37,7 +37,7 @@ name = "problem_template_python"
 description = "Template for problem."
 authors = ["Opthub Inc. <dev@opthub.ai>"]
 packages = [
-  {include = "example_problem"},
+  {include = "linehaul-problem"},
 ]
 readme = "README.md"
 license = "MIT"
