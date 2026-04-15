@@ -60,7 +60,7 @@ jsonschema = "^4.23.0"
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.3"
 mypy = "^1.9.0"
-pytest = "^8.1.1"
+pytest = ">=8.1.1,<10.0.0"
 types-PyYAML = "^6.0"
 types-jsonschema = "^4.23.0"
 opthub_runner = "^0.1.1"
