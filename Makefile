@@ -15,5 +15,5 @@ build:
 
 push:
 	echo Pushing $(NAME)...
-	docker push opthub/$(NAME)
+	docker push opthub/problem-$(NAME)
 
