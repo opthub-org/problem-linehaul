@@ -19,4 +19,5 @@ COPY . /usr/src/app
 RUN poetry install
 
 # Run the command (modify here)
-CMD ["poetry", "run", "python", "./linehaul-problem/main.py", "-c", "test_100", "-t", "problem"]
+ENTRYPOINT ["poetry", "run", "python", "./linehaul-problem/main.py"]
+CMD ["-c", "test_100", "-t", "problem"]
