@@ -19,4 +19,4 @@ COPY . /usr/src/app
 RUN poetry install
 
 # Run the command (modify here)
-CMD ["sh", "-c", "cd /usr/src/app && poetry run python ./linehaul-problem/main.py"]
+CMD ["poetry", "run", "python", "./linehaul-problem/main.py", "-c", "test_100", "-t", "problem"]
