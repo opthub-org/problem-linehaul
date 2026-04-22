@@ -11,26 +11,17 @@ def get_table_routing_schema(n_node: int):
     return f"""{{
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Routing Table Schema.",
+    "description": "A 46x46 2D array of integers.",
     "type": "array",
+    "minItems": 46,
+    "maxItems": 46,
     "items": {{
-      "type": "object",
-      "properties": {{
-        "from": {{
-          "type": "integer",
-          "description": "出発地点のprefecture code"
-        }},
-        "next": {{
-          "type": "array",
-          "items": {{
+        "type": "array",
+        "minItems": 46,
+        "maxItems": 46,
+        "items": {{
             "type": "integer"
-          }},
-          "minItems": {n_node},
-          "maxItems": {n_node},
-          "description": "遷移先のノードリスト,自己ループは-1（要素数は{n_node}固定）"
         }}
-      }},
-      "required": ["from", "next"],
-      "additionalProperties": false
     }}
     }}"""
 

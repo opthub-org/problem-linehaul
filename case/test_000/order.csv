@@ -1,4 +1,0 @@
-id,origin_prefecture_code,destination_prefecture_code,virtual_load,standard_deviation
-1,1,5,100,5
-2,3,5,200,5
-3,4,5,100,5

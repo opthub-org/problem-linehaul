@@ -46,7 +46,7 @@ def main(case_name: str, case_type) -> None:
         problem = ProblemFactory.create(validated_example_env["case_type"].strip(),
                                         path_setting.routing_table)
 
-        validated_variable = validate_variable(problem)  # Validate the variable
+        problem.validate()  # Validate the variable
         # msg = f"validated_variable: {validated_variable}"
         # LOGGER.info(msg)
 
