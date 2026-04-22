@@ -4,8 +4,8 @@ import json
 from pathlib import Path
 from typing import TypedDict,Any
 from app.test_problem.cost_evaluator import CostEvaluator
+from app.test_problem.problem import Problem
 from infra.path_setting import PathSetting
-from test_problem.problem import Problem
 
 
 class Evaluation(TypedDict):
@@ -33,4 +33,3 @@ def evaluate(problem:Problem, path_setting:PathSetting) -> Evaluation:
     objective = problem.evaluate()
 
     return {"objective": objective}
-

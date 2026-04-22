@@ -1,6 +1,6 @@
 from app.test_problem.problem import Problem
 from infra.path_setting import PathSetting
-from real_problem.real_varidator import RealVariableValidator
+from app.real_problem.real_varidator import RealVariableValidator
 
 
 class RealProblem(Problem):

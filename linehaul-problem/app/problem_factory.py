@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from real_problem.real_cost_evaluator import RealCostEvaluator
-from test_large_problem.new_cost_evaluator import NewCostEvaluator
-from test_problem.cost_evaluator import CostEvaluator
 from .test_problem.problem import Problem
 from .real_problem.real_problem import RealProblem
+from .real_problem.real_cost_evaluator import RealCostEvaluator
+from .test_large_problem.new_cost_evaluator import NewCostEvaluator
+from .test_problem.cost_evaluator import CostEvaluator
 
 
 class ProblemFactory:

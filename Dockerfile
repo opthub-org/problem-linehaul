@@ -20,4 +20,4 @@ RUN poetry install
 
 # Run the command (modify here)
 ENTRYPOINT ["poetry", "run", "python", "./linehaul-problem/main.py"]
-CMD ["-c", "test_100", "-t", "problem"]
+CMD ["-c", "test", "-t", "problem"]

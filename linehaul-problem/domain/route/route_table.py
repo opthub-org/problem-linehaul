@@ -1,8 +1,8 @@
 
-from branch.branch_collection import BranchCollection
 from domain.network.network_entity import NetWork
 from domain.node.node_data import NodeData
-from node.node_collection import NodeCollection
+from domain.branch.branch_collection import BranchCollection
+from domain.node.node_collection import NodeCollection
 from .route_entity import RouteEntity
 from ..order.order_vo import OrderVO
 
