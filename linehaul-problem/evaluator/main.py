@@ -12,6 +12,8 @@ class Evaluation(TypedDict):
     """The type of the solution."""
 
     objective: float
+    feasible: bool
+    constraint: None
 
 def get_variable(file_path:Path)->str:
     with open(file_path) as f:
@@ -32,4 +34,4 @@ def evaluate(problem:Problem, path_setting:PathSetting) -> Evaluation:
     problem.initialize(path_setting)
     objective = problem.evaluate()
 
-    return {"objective": objective}
+    return {"objective": objective, "feasible": True, "constraint": None}

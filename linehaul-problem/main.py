@@ -57,13 +57,17 @@ def main(case_name: str, case_type) -> None:
         sys.stdout.write(json.dumps(result) + "\n")  # Write the result to the standard output
 
     except Exception as e:
-        error_result = {"objective": None, "error": str(e)}
+        error_result = {
+            "objective": None,
+            "feasible": False,
+            "constraint": None,
+            "error": str(e),
+        }
         sys.stdout.write(
             json.dumps(error_result, ensure_ascii=False) + "\n",
         )  # Write the error result to the standard output
         msg = f"error result: {error_result}"
         LOGGER.info(msg)
-        raise
 
 
 if __name__ == "__main__":
