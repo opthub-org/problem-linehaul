@@ -26,7 +26,7 @@ class PathSetting:
 
     @property
     def routing_table(self)->Path:
-        return self.case / "routing_table.json"
+        return self.case / "input.json"
 
     @property
     def prefectures(self) -> Path:

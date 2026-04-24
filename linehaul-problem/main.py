@@ -38,7 +38,7 @@ def main(case_name: str, case_type) -> None:
 
     try:
         validated_example_env = validate_example_env(env_var)  # Validate the environment variable
-        msg = f"validated_example_env: {validated_example_env}"
+        msg = f"{validated_example_env}"
         LOGGER.info(msg)
 
         path_setting = PathSetting(str(root), validated_example_env["case_name"].strip())
