@@ -6,7 +6,7 @@ from domain.order.order_vo import OrderVO
 
 
 class BranchTransportCost:
-    EPSILON = 10 ** -3
+    EPSILON = 10 ** -10
 
     def __init__(self, branch: BranchVO, vehicle_capacity: float):
         self.branch: BranchVO = branch
