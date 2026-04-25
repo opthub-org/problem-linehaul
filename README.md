@@ -143,12 +143,21 @@ $a_{1\ 13} = 2$
 
 ### 7.1 実行方法
 1. linhaul-problem\main.pyを以下の実行時引数で起動してください。 
->  "-c problem" "-t problem"
+```
+> uv sync
+> uv run python linehaul-problem\main.py -c problem -t problem
+```
 2. input?と表示されるので、解(2216個の整数のリスト)を入力する。
 > input? 
- 
+
 >[ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,...,2]
-3. 入力が適切であれば以下の様に計算結果が表示される。
+
+3. 以下でも可能。
+```
+> uv run python linehaul-problem\main.py -c problem -t problem < .\case\test\input.json
+```
+
+4. 入力が適切であれば以下の様に計算結果が表示される。
 > {"objective": 211351547.4309249, "feasible": true, "constraint": null}
 * objective：入力に対しての目的関数値
 * feasible：実行成功時にTrueになる
